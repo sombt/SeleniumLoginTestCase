@@ -1,25 +1,14 @@
-from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-import time
+from common_imports import *
+from components import email_locator, email_valid, password_locator, password_valid, signIn_locator
 
-service = Service("geckodriver.exe")
-driver = webdriver.Firefox(service=service)
-action = ActionChains(driver)
-
-
-driver.get("https://app.talentcapture.us/login")
 input_email = driver.find_element(
-    By.ID, "u_email").send_keys("sombdrtmgcourse@gmail.com" + Keys.ENTER)
+    *email_locator).send_keys(email_valid + Keys.ENTER)
 
 
 input_password = driver.find_element(
-    By.ID, "pwd").send_keys("Talent" + Keys.ENTER)
+    *password_locator).send_keys(password_valid + Keys.ENTER)
 
-signIn_button = driver.find_element(
-    By.XPATH, '//*[@id="tc-form-buttons"]/button')
+signIn_button = driver.find_element(*signIn_locator)
 signIn_button.click()
 
 time.sleep(5)

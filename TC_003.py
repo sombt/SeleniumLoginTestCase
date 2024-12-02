@@ -1,25 +1,13 @@
-from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-import time
-
-service = Service("geckodriver.exe")
-driver = webdriver.Firefox(service=service)
-action = ActionChains(driver)
-
-
-driver.get("https://app.talentcapture.us/login")
+from common_imports import *
+from components import signIn_locator, credential_error_locator
 driver.implicitly_wait(3)
 
-signIn_button = driver.find_element(
-    By.XPATH, '//*[@id="tc-form-buttons"]/button')
+signIn_button = driver.find_element(*signIn_locator)
 signIn_button.click()
 
 time.sleep(3)
 
-alert_msg = driver.find_element(By.CLASS_NAME, "alert.alert-error")
+alert_msg = driver.find_element(*credential_error_locator)
 current_alert = alert_msg.text
 expected_alert = "Invalid Credentials"
 
@@ -31,8 +19,5 @@ if current_url == expected_url and current_alert == expected_alert:
     print("Test Passed")
 else:
     print("Test Failed")
-
-
-time.sleep(15)
 
 driver.quit()
